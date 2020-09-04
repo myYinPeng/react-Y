@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+class App extends Component {
+    state = { data: [] }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    componentDidMount() {
+        const url =
+            'https://en.wikipedia.org/w/api.php?action=opensearch&search=Seona+Dancing&format=json&origin=*'
+
+        fetch(url).then((result) => result.json()).then((result) => {
+            this.setState({
+                data: result
+            })
+        })
+    }
+
+    render() {
+        const { data } = this.state
+        const results = data.map((entry, index) => {
+            return <li key={index}>{entry}</li>
+        })
+        return (<ul>{results}</ul>)
+    }
 }
 
 export default App;
